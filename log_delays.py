@@ -3,8 +3,8 @@ import os
 import sqlite3
 import requests
 
-CLIENT_ID = os.environ.get("SCHIPHOL_APP_ID")
-CLIENT_SECRET = os.environ.get("SCHIPHOL_APP_KEY")
+CLIENT_ID = os.environ.get("rL6RUY29LDvulUtqc07OVCWze1U1V7PU")
+CLIENT_SECRET = os.environ.get("YWxlONK8PORWau28HMGOXpLxoAzNd4YnvQN_zTI-ewvy64in044a6gmQn3RQ_E-k")
 
 
 def get_schiphol_token(client_id: str, client_secret: str) -> str:
