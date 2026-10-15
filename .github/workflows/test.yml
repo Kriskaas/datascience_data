@@ -1,0 +1,38 @@
+name: Test KLM Scraper
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  test-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run scraper
+        env:
+          SCHIPHOL_APP_ID: ${{ secrets.SCHIPHOL_APP_ID }}
+          SCHIPHOL_APP_KEY: ${{ secrets.SCHIPHOL_APP_KEY }}
+        run: |
+          echo "--- START LOGGING ---"
+          python log_delays.py
+          echo "--- LOGGING COMPLETE ---"
+
+      - name: Save database back to repo
+        run: |
+          if [ -f klm_delays.db ]; then
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            git add klm_delays.db
+            git commit -m "Auto-update klm_delays.db [skip ci]" || echo "Geen wijzigingen"
+            git push
+          fi
